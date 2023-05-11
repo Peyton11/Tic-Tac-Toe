@@ -12,7 +12,6 @@ bool player1WinCondition(char[]);
 bool player2WinCondition(char[]);
 bool drawCondition(char[]);
 // Add AI for 1 player mode.
-// Add input validation
 // Add flow control
 
 int main()
@@ -70,6 +69,13 @@ int playerCount()
 	int players;
 	std::cout << "How many players? (1-2): ";
 	std::cin >> players;
+	while (players != 1 && players != 2)
+	{
+		std::cout << "Invalid input. How many players? (1-2): ";
+		std::cin >> players;
+		std::cout << std::endl;
+	}
+
 	std::cout << "Player 1 will be X and Player 2 will be O";
 	return players;
 }
