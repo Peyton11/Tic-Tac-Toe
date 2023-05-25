@@ -11,8 +11,6 @@ void player2Choice(char[]);
 bool player1WinCondition(char[]);
 bool player2WinCondition(char[]);
 bool drawCondition(char[]);
-// Add AI for 1 player mode.
-// Add flow control
 
 int main()
 {
@@ -31,11 +29,19 @@ int main()
 		player1Win = player1WinCondition(board);
 		printBoard(board);
 		draw = drawCondition(board);
+		if (player1Win)
+		{
+			break;
+		}
 
 		player2Choice(board);
 		printBoard(board);
 		player2Win = player2WinCondition(board);
 		draw = drawCondition(board);
+		if (player2Win)
+		{
+			break;
+		}
 	}
 
 	system("pause");
@@ -64,19 +70,21 @@ void printBoard(char board[])
 	std::cout << board[6] << " | " << board[7]<< " | " << board[8] << std::endl;
 }
 
+// Asks how many players are playing. If not 1 or 2 players, ask again.
 int playerCount()
 {
 	int players;
 	std::cout << "How many players? (1-2): ";
 	std::cin >> players;
-	while (players != 1 && players != 2)
+
+	// Ensures input is either 1 or 2.
+	while (std::cin.fail() || (players != 1 && players != 2))
 	{
 		std::cout << "Invalid input. How many players? (1-2): ";
 		std::cin >> players;
 		std::cout << std::endl;
 	}
 
-	std::cout << "Player 1 will be X and Player 2 will be O";
 	return players;
 }
 
@@ -86,6 +94,13 @@ void player1Choice(char board[])
 	std::cout << "Player 1, which space would you like to pick? ";
 	std::cin >> player1Space;
 	std::cout << std::endl;
+
+	while (board[player1Space - 1] != '-')
+	{
+		std::cout << "Invalid choice. Please select an unoccupied space: ";
+		std::cin >> player1Space;
+		std::cout << std::endl;
+	}
 	board[player1Space - 1] = 'X';
 }
 
@@ -95,6 +110,12 @@ void player2Choice(char board[])
 	std::cout << "Player 2, which space would you like to pick? ";
 	std::cin >> player2Space;
 	std::cout << std::endl;
+	while (board[player2Space - 1] != '-')
+	{
+		std::cout << "Invalid choice. Please select an unoccupied space: ";
+		std::cin >> player2Space;
+		std::cout << std::endl;
+	}
 	board[player2Space - 1] = 'O';
 }
 
